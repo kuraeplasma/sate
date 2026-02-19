@@ -161,8 +161,8 @@ body {
 
 .sound-fab {
   position: absolute;
-  left: 63.5%;
-  top: 68%;
+  left: var(--vent-x);
+  top: var(--vent-y);
   width: clamp(26px, 4.8%, 34px);
   aspect-ratio: 1 / 1;
   height: auto;
@@ -219,6 +219,10 @@ body {
 
 .machine {
   position: relative;
+  --vent-x: 63.5%;
+  --vent-y: 68%;
+  --outlet-x: 50%;
+  --outlet-y: 89%;
   width: min(700px, 100%);
   margin: 0 auto;
 }
@@ -386,14 +390,16 @@ body {
 .t4 { transform: rotate(17deg); }
 
 .capsule {
-  --x: 50%;
+  --x: var(--outlet-x);
+  --y: var(--outlet-y);
   --cap-b1: #e3cf63;
   --cap-b2: #cc8d3f;
   position: absolute;
   z-index: 3;
   left: var(--x);
-  bottom: 3px;
-  transform: translateX(-50%) scale(0);
+  top: var(--y);
+  bottom: auto;
+  transform: translate(-50%, 0) scale(0);
   width: min(84px, 15%);
   height: min(84px, 15%);
   border-radius: 50%;
@@ -410,6 +416,12 @@ body {
   width: 100%;
   height: 50%;
   border: none;
+  transform-origin: center;
+  backface-visibility: hidden;
+}
+
+.capsule.opened {
+  overflow: visible;
 }
 
 .capsule-top {
@@ -488,17 +500,19 @@ body {
 }
 
 @keyframes drop {
-  0% { opacity: 0; transform: translate3d(-50%, -22px, 0) scale(.99); }
-  10% { opacity: 1; transform: translate3d(-50%, -14px, 0) scale(1); }
-  100% { opacity: 1; transform: translate3d(-50%, 106px, 0) scale(1); }
+  0% { opacity: 0; transform: translate3d(-50%, -10px, 0) scale(.99); }
+  10% { opacity: 1; transform: translate3d(-50%, -4px, 0) scale(1); }
+  100% { opacity: 1; transform: translate3d(-50%, 56px, 0) scale(1); }
 }
 
 @keyframes splitTop {
-  to { transform: translateY(-8px); }
+  from { transform: translateY(0); }
+  to { transform: translateY(-16px); }
 }
 
 @keyframes splitBottom {
-  to { transform: translateY(8px); }
+  from { transform: translateY(0); }
+  to { transform: translateY(16px); }
 }
 
 @keyframes capsuleVanish {
@@ -812,7 +826,7 @@ body {
     height: auto;
   }
   .capsule { width: min(68px, 17.5%); height: min(68px, 17.5%); }
-  .sound-fab { left: 63.5%; top: 68%; width: clamp(26px, 6.6vw, 34px); }
+  .sound-fab { width: clamp(26px, 6.6vw, 34px); }
   .pain-comment { font-size: .95rem; padding: 7px 10px; }
   .result {
     margin-top: -2px;

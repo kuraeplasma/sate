@@ -1,55 +1,55 @@
 const actionSeeds = [
-  { text: "深呼吸を10回する。", time: "1分", cost: "0円", place: "室内" },
-  { text: "冷蔵庫の中を1段だけ整える。", time: "5分", cost: "0円", place: "室内" },
-  { text: "机の上のいらない紙を3枚捨てる。", time: "2分", cost: "0円", place: "室内" },
-  { text: "財布の中身を一度全部出して戻す。", time: "3分", cost: "0円", place: "室内" },
-  { text: "今日やらないことを1つ決める。", time: "2分", cost: "0円", place: "室内" },
-  { text: "未読メールを1通だけ処理する。", time: "3分", cost: "0円", place: "室内" },
-  { text: "カーテンを開けて光を浴びる。", time: "1分", cost: "0円", place: "室内" },
+  { text: "ご飯をいつもよりゆっくり食べる。", time: "30分", cost: "0円", place: "室内" },
+  { text: "靴下を左右逆に履いてみる。", time: "1分", cost: "0円", place: "室内" },
+  { text: "冷蔵庫を開けて3秒考えて閉める。", time: "1分", cost: "0円", place: "室内" },
+  { text: "家の中で一番丸いものを探す。", time: "3分", cost: "0円", place: "室内" },
+  { text: "自分の名前を心の中で3回言う。", time: "1分", cost: "0円", place: "室内" },
+  { text: "今日のテーマカラーを勝手に決める。", time: "1分", cost: "0円", place: "室内" },
+  { text: "スマホを裏返して置く。", time: "10分", cost: "0円", place: "室内" },
+  { text: "利き手じゃない方でコップを持つ。", time: "1分", cost: "0円", place: "室内" },
+  { text: "家の中の音を30秒聞く。", time: "1分", cost: "0円", place: "室内" },
+  { text: "窓の外を1分だけ観察する。", time: "1分", cost: "0円", place: "室内" },
+  { text: "机の上の物を1つだけ動かす。", time: "1分", cost: "0円", place: "室内" },
+  { text: "お茶をゆっくり飲む。", time: "10分", cost: "0円", place: "室内" },
+  { text: "お風呂でスマホを使わない。", time: "10分", cost: "0円", place: "浴室" },
+  { text: "鼻歌を歌う。", time: "1分", cost: "0円", place: "室内" },
+  { text: "翌月のカレンダーを見る。", time: "1分", cost: "0円", place: "室内" },
+  { text: "空を見上げて雲に名前をつける。", time: "2分", cost: "0円", place: "屋外" },
+  { text: "信号待ちで深呼吸する。", time: "1分", cost: "0円", place: "屋外" },
+  { text: "公園のベンチを一瞬使う。", time: "2分", cost: "0円", place: "屋外" },
+  { text: "建物の影を見て形を想像する。", time: "2分", cost: "0円", place: "屋外" },
+  { text: "風の音を10秒聞く。", time: "1分", cost: "0円", place: "屋外" },
+  { text: "足音に意識を向けて歩く。", time: "2分", cost: "0円", place: "屋外" },
+  { text: "その場でジャンプをする。", time: "1秒", cost: "0円", place: "屋外" },
+  { text: "ゴミを見つけたら拾って捨てる。", time: "5分", cost: "0円", place: "屋外" },
+  { text: "ニヤリとしてみる。", time: "1分", cost: "0円", place: "室内" },
+  { text: "一旦諦める。", time: "3秒", cost: "0円", place: "室内" },
+  { text: "今日のラッキーナンバーを決める。", time: "1分", cost: "0円", place: "室内" },
+  { text: "家の中で一番古いところを見る。", time: "1分", cost: "0円", place: "室内" },
+  { text: "3年前の今日を想像する。", time: "2分", cost: "0円", place: "室内" },
+  { text: "好きな単語を1つ選ぶ。", time: "1分", cost: "0円", place: "室内" },
+  { text: "5秒だけ姿勢を正す。", time: "1分", cost: "0円", place: "室内" },
+  { text: "今日の自分にタイトルをつける。", time: "2分", cost: "0円", place: "室内" },
+  { text: "鏡に向かって軽く会釈する。", time: "1分", cost: "0円", place: "室内" },
+  { text: "スマホの明るさを少し下げる。", time: "1分", cost: "0円", place: "室内" },
+  { text: "決めセリフを言う。", time: "1分", cost: "0円", place: "室内" },
+  { text: "普段読まないカテゴリーの本を買う。", time: "5分", cost: "〜1000円", place: "屋外" },
   { text: "白湯をゆっくり飲む。", time: "3分", cost: "0円", place: "室内" },
-  { text: "背筋を伸ばして1分座る。", time: "1分", cost: "0円", place: "室内" },
-  { text: "スマホを5分触らない。", time: "5分", cost: "0円", place: "室内" },
-  { text: "いつもと逆方向に100歩歩く。", time: "3分", cost: "0円", place: "屋外" },
-  { text: "空を見上げて雲の形を探す。", time: "2分", cost: "0円", place: "屋外" },
-  { text: "コンビニで知らない商品を1つ手に取る。", time: "5分", cost: "〜500円", place: "屋外" },
-  { text: "近所の花を1つ見つける。", time: "5分", cost: "0円", place: "屋外" },
-  { text: "自販機のラインナップをじっくり見る。", time: "2分", cost: "0円", place: "屋外" },
-  { text: "5分だけ遠回りして帰る。", time: "5分", cost: "0円", place: "屋外" },
-  { text: "公園のベンチに1分座る。", time: "3分", cost: "0円", place: "屋外" },
-  { text: "歩きながら好きな曲を1曲聴く。", time: "4分", cost: "0円", place: "屋外" },
-  { text: "100円だけ募金する。", time: "3分", cost: "〜100円", place: "屋外" },
-  { text: "貯金箱に10円入れる。", time: "1分", cost: "10円", place: "室内" },
-  { text: "使ってないサブスクを確認する。", time: "5分", cost: "0円", place: "室内" },
-  { text: "今日の無駄遣いを1つ減らす。", time: "1分", cost: "0円", place: "室内" },
-  { text: "冷蔵庫の余り物で何か作る。", time: "10分", cost: "0円", place: "室内" },
-  { text: "最近話してない人を1人思い出す。", time: "1分", cost: "0円", place: "室内" },
-  { text: "ありがとうを1回多く言う。", time: "1分", cost: "0円", place: "屋内/屋外" },
-  { text: "スタンプだけでも誰かに送る。", time: "2分", cost: "0円", place: "室内" },
-  { text: "昔の写真を1枚見返す。", time: "2分", cost: "0円", place: "室内" },
-  { text: "「元気？」と一言送る。", time: "2分", cost: "0円", place: "室内" },
-  { text: "冷蔵庫の中の一番古いものを確認する。", time: "3分", cost: "0円", place: "室内" },
-  { text: "今日のラッキーカラーを勝手に決める。", time: "1分", cost: "0円", place: "室内" },
-  { text: "3年前の自分を思い出す。", time: "2分", cost: "0円", place: "室内" },
-  { text: "未来の自分に一言考える。", time: "3分", cost: "0円", place: "室内" },
-  { text: "今日よかったことを1つ書く。", time: "2分", cost: "0円", place: "室内" },
-  { text: "「なんとなく」を言語化する。", time: "3分", cost: "0円", place: "室内" },
-  { text: "今の気持ちに名前をつける。", time: "2分", cost: "0円", place: "室内" },
-  { text: "家の中で一番高いところを見る。", time: "1分", cost: "0円", place: "室内" },
-  { text: "左右逆の手で歯磨きをする。", time: "3分", cost: "0円", place: "室内" },
-  { text: "エレベーターのボタンをゆっくり押す。", time: "1分", cost: "0円", place: "屋内" },
-  { text: "コンビニで一番高いお菓子を値段だけ見る。", time: "3分", cost: "0円", place: "屋外" },
-  { text: "知らない単語を1つ調べる。", time: "3分", cost: "0円", place: "室内" },
-  { text: "テレビの音を一度消す。", time: "1分", cost: "0円", place: "室内" },
-  { text: "机の上を10cmだけ片付ける。", time: "2分", cost: "0円", place: "室内" },
-  { text: "知らない店に入る。", time: "10分", cost: "〜1000円", place: "屋外" },
-  { text: "普段選ばないメニューを選ぶ。", time: "5分", cost: "〜1000円", place: "屋外" },
-  { text: "今日1回だけ断る勇気を出す。", time: "1分", cost: "0円", place: "屋内/屋外" },
-  { text: "鏡を見て10秒自分を見る。", time: "1分", cost: "0円", place: "室内" },
-  { text: "エスカレーターを使わず階段にする。", time: "3分", cost: "0円", place: "屋外" }
+  { text: "窓を少しだけ開ける。", time: "1分", cost: "0円", place: "室内" },
+  { text: "目を閉じて30秒静かにする。", time: "1分", cost: "0円", place: "室内" },
+  { text: "手を温める。", time: "1分", cost: "0円", place: "室内" },
+  { text: "背伸びをする。", time: "1分", cost: "0円", place: "室内" },
+  { text: "今日は少しだけ遠回りする。", time: "5分", cost: "0円", place: "屋外" },
+  { text: "いつもと違う順番で準備する。", time: "3分", cost: "0円", place: "室内" },
+  { text: "今日の気分に色をつける。", time: "2分", cost: "0円", place: "室内" },
+  { text: "何もしない時間を1分作る。", time: "1分", cost: "0円", place: "室内" },
 ];
-
 function inferEnergyLevel(time) {
-  const minutes = Number(time.replace("分", ""));
+  // Support both "N分" and "N秒" labels without misclassifying seconds as high energy.
+  const normalized = String(time).trim();
+  if (normalized.includes("秒")) return "低";
+  const minutes = Number(normalized.replace("分", ""));
+  if (!Number.isFinite(minutes)) return "低";
   if (minutes <= 2) return "低";
   if (minutes <= 5) return "中";
   return "高";
@@ -60,7 +60,7 @@ function inferCostLevel(cost) {
 }
 
 function inferIndoor(place) {
-  return place.includes("室内") || place.includes("屋内");
+  return place.includes("室内") || place.includes("屋内") || place.includes("浴室");
 }
 
 function inferCategory(text, place, cost) {
