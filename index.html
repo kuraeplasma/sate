@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>さて。</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <p id="brandLogo" class="brand-logo" aria-label="さて">
+        <span class="brand-char">さ</span>
+        <span class="brand-char">て</span>
+        <span class="logo-capsule-dot" aria-hidden="true"></span>
+      </p>
+      <h1>今日の一歩、カプセルに入れておきました。</h1>
+    </header>
+
+    <section class="machine-wrap" aria-label="ガチャマシンエリア">
+      <div class="machine">
+        <button id="soundToggle" class="sound-fab muted" type="button" aria-label="サウンドOFF">
+          <span class="speaker-grille" aria-hidden="true"></span>
+        </button>
+        <svg viewBox="0 0 320 300" class="machine-svg" role="img" aria-label="ガチャマシン">
+          <defs>
+            <linearGradient id="glassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#fbfdff"/>
+              <stop offset="100%" stop-color="#dfe9f4"/>
+            </linearGradient>
+            <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ef4a3f"/>
+              <stop offset="55%" stop-color="#cc3028"/>
+              <stop offset="100%" stop-color="#a9231d"/>
+            </linearGradient>
+            <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#f0f3f7"/>
+              <stop offset="48%" stop-color="#aeb8c3"/>
+              <stop offset="100%" stop-color="#8a95a2"/>
+            </linearGradient>
+            <linearGradient id="beadBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.78)"/>
+              <stop offset="46%" stop-color="rgba(230,246,255,.72)"/>
+              <stop offset="47%" stop-color="#7cc8ff"/>
+              <stop offset="100%" stop-color="#3b98e6"/>
+            </linearGradient>
+            <linearGradient id="beadYellow" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.8)"/>
+              <stop offset="46%" stop-color="rgba(255,251,214,.74)"/>
+              <stop offset="47%" stop-color="#f6ea75"/>
+              <stop offset="100%" stop-color="#d5bc43"/>
+            </linearGradient>
+            <linearGradient id="beadRed" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.8)"/>
+              <stop offset="46%" stop-color="rgba(255,224,224,.72)"/>
+              <stop offset="47%" stop-color="#ff8a8a"/>
+              <stop offset="100%" stop-color="#ef4f4f"/>
+            </linearGradient>
+            <linearGradient id="beadGreen" x1="100%" y1="0%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.8)"/>
+              <stop offset="46%" stop-color="rgba(229,255,235,.72)"/>
+              <stop offset="47%" stop-color="#8ee5a8"/>
+              <stop offset="100%" stop-color="#38b86a"/>
+            </linearGradient>
+            <linearGradient id="beadPurple" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.8)"/>
+              <stop offset="46%" stop-color="rgba(241,231,255,.74)"/>
+              <stop offset="47%" stop-color="#c7a3ff"/>
+              <stop offset="100%" stop-color="#8d68e0"/>
+            </linearGradient>
+            <linearGradient id="beadOrange" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.8)"/>
+              <stop offset="46%" stop-color="rgba(255,240,223,.74)"/>
+              <stop offset="47%" stop-color="#ffc27e"/>
+              <stop offset="100%" stop-color="#e68f3e"/>
+            </linearGradient>
+            <filter id="softShadow" x="-30%" y="-30%" width="160%" height="170%">
+              <feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#233446" flood-opacity=".2"/>
+            </filter>
+            <clipPath id="beadClip">
+              <rect x="92" y="28" width="136" height="150" rx="10"/>
+            </clipPath>
+          </defs>
+
+          <ellipse cx="162" cy="284" rx="88" ry="10" class="floor-shadow"/>
+
+          <g filter="url(#softShadow)">
+            <rect x="82" y="22" width="156" height="162" rx="16" class="glass-shell"/>
+            <rect x="88" y="28" width="144" height="150" rx="10" class="glass"/>
+            <rect x="98" y="38" width="16" height="130" rx="8" class="glass-reflect"/>
+            <g class="inner-beads" transform="translate(0,10)" clip-path="url(#beadClip)">
+              <circle cx="96" cy="72" r="24" class="bead b1 t1 f1"/>
+              <circle cx="138" cy="58" r="24" class="bead b2 t3 f2"/>
+              <circle cx="186" cy="66" r="24" class="bead b3 t2 f3"/>
+              <circle cx="226" cy="78" r="24" class="bead b4 t4 f1"/>
+              <circle cx="118" cy="84" r="24" class="bead b5 t2 f1"/>
+              <circle cx="164" cy="86" r="24" class="bead b6 t4 f2"/>
+              <circle cx="206" cy="92" r="24" class="bead b1 t1 f3"/>
+              <circle cx="106" cy="124" r="24" class="bead b5 t1 f2"/>
+              <circle cx="154" cy="126" r="24" class="bead b6 t2 f3"/>
+              <circle cx="202" cy="128" r="24" class="bead b1 t3 f1"/>
+              <circle cx="238" cy="136" r="24" class="bead b2 t4 f2"/>
+              <circle cx="126" cy="142" r="24" class="bead b3 t3 f2"/>
+              <circle cx="174" cy="144" r="24" class="bead b4 t1 f1"/>
+              <circle cx="220" cy="150" r="24" class="bead b5 t2 f3"/>
+              <circle cx="94" cy="170" r="24" class="bead b3 t4 f2"/>
+              <circle cx="142" cy="176" r="24" class="bead b4 t1 f1"/>
+              <circle cx="192" cy="174" r="24" class="bead b5 t3 f3"/>
+              <circle cx="236" cy="176" r="24" class="bead b6 t2 f2"/>
+              <circle cx="116" cy="184" r="24" class="bead b1 t4 f1"/>
+              <circle cx="164" cy="186" r="24" class="bead b2 t2 f2"/>
+              <circle cx="212" cy="184" r="24" class="bead b3 t3 f3"/>
+            </g>
+            <rect x="88" y="28" width="144" height="150" rx="10" class="case-border"/>
+            <rect x="90" y="28" width="3" height="150" class="case-rail"/>
+            <rect x="227" y="28" width="3" height="150" class="case-rail"/>
+            <rect x="88" y="172" width="144" height="4" rx="2" class="case-bottom-rail"/>
+            <rect x="95" y="40" width="10" height="124" rx="5" class="case-reflect-left"/>
+            <rect x="206" y="46" width="7" height="112" rx="3.5" class="case-reflect-right"/>
+
+            <rect x="84" y="178" width="152" height="100" rx="6" class="base"/>
+            <rect x="93" y="185" width="134" height="87" rx="4" class="base-panel"/>
+            <rect x="84" y="177" width="152" height="7" class="top-trim"/>
+            <circle cx="96" cy="189" r="1.8" class="screw"/>
+            <circle cx="224" cy="189" r="1.8" class="screw"/>
+            <circle cx="96" cy="270" r="1.8" class="screw"/>
+            <circle cx="224" cy="270" r="1.8" class="screw"/>
+
+            <rect x="128" y="213" width="64" height="52" rx="6" class="coin-unit"/>
+            <circle id="dialHitArea" cx="160" cy="224" r="45" class="dial-hit-area" aria-hidden="true"/>
+            <g class="dial-button" id="dialButton" role="button" aria-label="ダイヤルを回す">
+              <circle cx="160" cy="224" r="25" class="dial-outer"/>
+              <circle cx="160" cy="224" r="17" class="dial-inner"/>
+              <text x="160" y="224" text-anchor="middle" dominant-baseline="middle" class="dial-push dial-push-desktop">CLICK!</text>
+              <text x="160" y="224" text-anchor="middle" dominant-baseline="middle" class="dial-push dial-push-mobile">TAP!</text>
+            </g>
+            <rect x="126" y="252" width="68" height="4" rx="2" class="slot-lip"/>
+            <rect x="126" y="254" width="68" height="11" rx="4" class="slot"/>
+            <ellipse cx="160" cy="267" rx="23" ry="4.5" class="slot-shadow"/>
+          </g>
+        </svg>
+        <p id="painComment" class="pain-comment" aria-live="polite">痛い！</p>
+        <div class="capsule" id="capsule" aria-hidden="true">
+          <div class="capsule-top"></div>
+          <div class="capsule-bottom"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="result" class="result hidden" aria-live="polite">
+      <article class="card hidden" id="card">
+        <p class="card-title">今日の一歩</p>
+        <p id="actionText" class="card-text"></p>
+        <ul class="meta">
+          <li id="metaTime"></li>
+          <li id="metaCost"></li>
+          <li id="metaPlace"></li>
+        </ul>
+        <button id="shareBtn" class="share-inline" aria-label="シェア">
+          <svg class="share-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v11"/>
+            <path d="M7.5 7.5 12 3l4.5 4.5"/>
+            <path d="M8 10H6a2 2 0 0 0-2 2v6a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-6a2 2 0 0 0-2-2h-2"/>
+          </svg>
+        </button>
+      </article>
+    </section>
+  </main>
+  <footer class="site-footer" aria-label="フッターナビゲーション">
+    <a href="#" class="footer-link">運営会社</a>
+    <span class="footer-sep">｜</span>
+    <a href="terms.html" class="footer-link">利用規約</a>
+    <span class="footer-sep">｜</span>
+    <a href="privacy.html" class="footer-link">プライバシー</a>
+    <span class="footer-sep">｜</span>
+    <a href="commerce.html" class="footer-link">特定商取引法に基づく表記</a>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
+
