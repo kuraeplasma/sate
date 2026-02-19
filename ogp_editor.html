@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OGP Editor</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root {
+      --machine-width: 620px;
+      --machine-top: 53%;
+      --text-top: 54%;
+      --text-size: 56px;
+      --text-pad-y: 12px;
+      --text-pad-x: 24px;
+      --logo-left: 14px;
+      --logo-top: 8px;
+      --logo-size: 56px;
+      --bg: #dfe5eb;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Yu Gothic", sans-serif; background: #eef2f7; color: #213246; }
+    .layout {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      gap: 16px;
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .panel {
+      width: min(1200px, 100%);
+      padding: 16px;
+      background: #fff;
+      border: 1px solid #d9e1eb;
+      border-radius: 12px;
+    }
+    .panel h1 { font-size: 18px; margin: 0 0 12px; }
+    .control { margin-bottom: 12px; }
+    .control label { display: block; font-size: 13px; margin-bottom: 4px; }
+    .control input[type=range] { width: 100%; }
+    .value { font-size: 12px; color: #5d6f84; }
+    .warn { font-size: 12px; color: #a6382d; margin-top: 4px; }
+    .btn { border: 1px solid #c8d5e3; background: #f7fbff; border-radius: 8px; padding: 8px 10px; cursor: pointer; margin-right: 8px; }
+    .preview-wrap {
+      width: min(1200px, 100%);
+      padding: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    .frame { width: 1200px; height: 630px; position: relative; background: var(--bg); box-shadow: 0 8px 24px rgba(18,28,42,.14); transform-origin: top center; }
+    .machine-wrap {
+      margin: 0; padding: 0; position: absolute;
+      left: 50%; top: var(--machine-top);
+      transform: translate(-50%, -50%);
+      background: transparent !important;
+    }
+    .machine { width: var(--machine-width); margin: 0 auto; }
+    .machine-svg { width: 100%; height: auto; filter: drop-shadow(0 16px 24px rgba(18,28,42,.18)); }
+    .sound-fab, #painComment, #capsule { display: none !important; }
+    .dial-push-desktop { display: none !important; }
+    .dial-push-mobile { display: block !important; }
+    .title-band {
+      position: absolute; left: 50%; top: var(--text-top); transform: translate(-50%, -50%);
+      padding: var(--text-pad-y) var(--text-pad-x);
+      border-radius: 24px;
+      background: rgba(246,249,252,.72); color: rgba(28,40,56,.95);
+      font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+      font-size: var(--text-size); line-height: 1; white-space: nowrap;
+      box-shadow: 0 0 0 1px rgba(168,184,198,.28), 0 4px 16px rgba(40,56,76,.25);
+      backdrop-filter: blur(5px);
+    }
+    .ogp-logo {
+      position: absolute;
+      left: var(--logo-left);
+      top: var(--logo-top);
+      margin: 0;
+      font-family: "Yu Mincho", "Hiragino Mincho ProN", "MS PMincho", serif;
+      font-size: var(--logo-size);
+      line-height: 1;
+      color: #333333;
+      letter-spacing: 0;
+      display: inline-flex;
+      align-items: baseline;
+      user-select: none;
+    }
+    .ogp-logo .brand-char {
+      display: inline-block;
+      font-weight: 900;
+      -webkit-text-stroke: 0.35px #333333;
+      text-stroke: 0.35px #333333;
+    }
+    .ogp-logo .logo-capsule-dot {
+      display: inline-block;
+      width: .27em;
+      height: .27em;
+      margin-left: .01em;
+      border-radius: 50%;
+      align-self: baseline;
+      transform: translateY(.03em);
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 32% 24%, rgba(255,255,255,.92) 0 15%, transparent 16%),
+        linear-gradient(180deg, rgba(240, 249, 255, .9) 0%, rgba(187, 212, 232, .84) 48%, transparent 49% 100%),
+        linear-gradient(180deg, #ff8f8f 50%, #df2c2c 100%);
+      border: 1px solid #000000;
+      box-shadow: none;
+    }
+    .ogp-logo .logo-capsule-dot::before {
+      content: "";
+      position: absolute;
+      left: 15%;
+      top: 10%;
+      width: 28%;
+      height: 22%;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .85);
+    }
+    .ogp-logo .logo-capsule-dot::after {
+      content: "";
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 50%;
+      height: 1px;
+      background: rgba(0, 0, 0, .28);
+    }
+    textarea { width: 100%; min-height: 110px; font-family: ui-monospace, monospace; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="panel">
+      <h1>OGP Position Editor</h1>
+
+      <div class="control"><label>ガチャサイズ</label><input id="machineWidth" type="range" min="480" max="760" value="620"><div class="value" id="machineWidthVal"></div><div class="warn" id="fitWarn"></div></div>
+      <div class="control"><label>ガチャ縦位置</label><input id="machineTop" type="range" min="44" max="62" step="0.1" value="53"><div class="value" id="machineTopVal"></div></div>
+      <div class="control"><label>文字縦位置</label><input id="textTop" type="range" min="44" max="62" step="0.1" value="54"><div class="value" id="textTopVal"></div></div>
+      <div class="control"><label>文字サイズ</label><input id="textSize" type="range" min="40" max="68" value="56"><div class="value" id="textSizeVal"></div></div>
+      <div class="control"><label>文字上下余白</label><input id="textPadY" type="range" min="6" max="24" value="12"><div class="value" id="textPadYVal"></div></div>
+      <div class="control"><label>文字左右余白</label><input id="textPadX" type="range" min="8" max="40" value="24"><div class="value" id="textPadXVal"></div></div>
+      <div class="control"><label>ロゴ左位置</label><input id="logoLeft" type="range" min="0" max="120" value="14"><div class="value" id="logoLeftVal"></div></div>
+      <div class="control"><label>ロゴ上位置</label><input id="logoTop" type="range" min="0" max="80" value="8"><div class="value" id="logoTopVal"></div></div>
+      <div class="control"><label>ロゴサイズ</label><input id="logoSize" type="range" min="30" max="90" value="56"><div class="value" id="logoSizeVal"></div></div>
+
+      <button class="btn" id="copyCss">CSS値をコピー</button>
+      <button class="btn" id="openExport">PNG出力ページを開く</button>
+      <button class="btn" id="reset">リセット</button>
+      <p class="value">調整後、下の値をそのまま共有してください。</p>
+      <textarea id="cssOut" readonly></textarea>
+      <p class="value">PNG出力URL（このURLをそのまま使ってPNG化します）</p>
+      <textarea id="exportOut" readonly></textarea>
+    </aside>
+
+    <main class="preview-wrap">
+      <div class="frame" id="frame">
+        <p class="ogp-logo" aria-label="さて">
+          <span class="brand-char">さ</span>
+          <span class="brand-char">て</span>
+          <span class="logo-capsule-dot" aria-hidden="true"></span>
+        </p>
+        <section class="machine-wrap"><div class="machine"><svg viewBox="0 0 320 300" class="machine-svg" role="img" aria-label="ガチャマシン">
+          <defs>
+            <linearGradient id="glassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#fbfdff"/>
+              <stop offset="100%" stop-color="#dfe9f4"/>
+            </linearGradient>
+            <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ef4a3f"/>
+              <stop offset="55%" stop-color="#cc3028"/>
+              <stop offset="100%" stop-color="#a9231d"/>
+            </linearGradient>
+            <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#f0f3f7"/>
+              <stop offset="48%" stop-color="#aeb8c3"/>
+              <stop offset="100%" stop-color="#8a95a2"/>
+            </linearGradient>
+            <linearGradient id="beadBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.78)"/>
+              <stop offset="46%" stop-color="rgba(230,246,255,.72)"/>
+              <stop offset="47%" stop-color="#7cc8ff"/>
+              <stop offset="100%" stop-color="#3b98e6"/>
+            </linearGradient>
+            <linearGradient id="beadYellow" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.8)"/>
+              <stop offset="46%" stop-color="rgba(255,251,214,.74)"/>
+              <stop offset="47%" stop-color="#f6ea75"/>
+              <stop offset="100%" stop-color="#d5bc43"/>
+            </linearGradient>
+            <linearGradient id="beadRed" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.8)"/>
+              <stop offset="46%" stop-color="rgba(255,224,224,.72)"/>
+              <stop offset="47%" stop-color="#ff8a8a"/>
+              <stop offset="100%" stop-color="#ef4f4f"/>
+            </linearGradient>
+            <linearGradient id="beadGreen" x1="100%" y1="0%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.8)"/>
+              <stop offset="46%" stop-color="rgba(229,255,235,.72)"/>
+              <stop offset="47%" stop-color="#8ee5a8"/>
+              <stop offset="100%" stop-color="#38b86a"/>
+            </linearGradient>
+            <linearGradient id="beadPurple" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.8)"/>
+              <stop offset="46%" stop-color="rgba(241,231,255,.74)"/>
+              <stop offset="47%" stop-color="#c7a3ff"/>
+              <stop offset="100%" stop-color="#8d68e0"/>
+            </linearGradient>
+            <linearGradient id="beadOrange" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.8)"/>
+              <stop offset="46%" stop-color="rgba(255,240,223,.74)"/>
+              <stop offset="47%" stop-color="#ffc27e"/>
+              <stop offset="100%" stop-color="#e68f3e"/>
+            </linearGradient>
+            <filter id="softShadow" x="-30%" y="-30%" width="160%" height="170%">
+              <feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#233446" flood-opacity=".2"/>
+            </filter>
+            <clipPath id="beadClip">
+              <rect x="92" y="28" width="136" height="150" rx="10"/>
+            </clipPath>
+          </defs>
+
+          <ellipse cx="162" cy="284" rx="88" ry="10" class="floor-shadow"/>
+
+          <g filter="url(#softShadow)">
+            <rect x="82" y="22" width="156" height="162" rx="16" class="glass-shell"/>
+            <rect x="88" y="28" width="144" height="150" rx="10" class="glass"/>
+            <rect x="98" y="38" width="16" height="130" rx="8" class="glass-reflect"/>
+            <g class="inner-beads" transform="translate(0,10)" clip-path="url(#beadClip)">
+              <circle cx="96" cy="72" r="24" class="bead b1 t1 f1"/>
+              <circle cx="138" cy="58" r="24" class="bead b2 t3 f2"/>
+              <circle cx="186" cy="66" r="24" class="bead b3 t2 f3"/>
+              <circle cx="226" cy="78" r="24" class="bead b4 t4 f1"/>
+              <circle cx="118" cy="84" r="24" class="bead b5 t2 f1"/>
+              <circle cx="164" cy="86" r="24" class="bead b6 t4 f2"/>
+              <circle cx="206" cy="92" r="24" class="bead b1 t1 f3"/>
+              <circle cx="106" cy="124" r="24" class="bead b5 t1 f2"/>
+              <circle cx="154" cy="126" r="24" class="bead b6 t2 f3"/>
+              <circle cx="202" cy="128" r="24" class="bead b1 t3 f1"/>
+              <circle cx="238" cy="136" r="24" class="bead b2 t4 f2"/>
+              <circle cx="126" cy="142" r="24" class="bead b3 t3 f2"/>
+              <circle cx="174" cy="144" r="24" class="bead b4 t1 f1"/>
+              <circle cx="220" cy="150" r="24" class="bead b5 t2 f3"/>
+              <circle cx="94" cy="170" r="24" class="bead b3 t4 f2"/>
+              <circle cx="142" cy="176" r="24" class="bead b4 t1 f1"/>
+              <circle cx="192" cy="174" r="24" class="bead b5 t3 f3"/>
+              <circle cx="236" cy="176" r="24" class="bead b6 t2 f2"/>
+              <circle cx="116" cy="184" r="24" class="bead b1 t4 f1"/>
+              <circle cx="164" cy="186" r="24" class="bead b2 t2 f2"/>
+              <circle cx="212" cy="184" r="24" class="bead b3 t3 f3"/>
+            </g>
+            <rect x="88" y="28" width="144" height="150" rx="10" class="case-border"/>
+            <rect x="90" y="28" width="3" height="150" class="case-rail"/>
+            <rect x="227" y="28" width="3" height="150" class="case-rail"/>
+            <rect x="88" y="172" width="144" height="4" rx="2" class="case-bottom-rail"/>
+            <rect x="95" y="40" width="10" height="124" rx="5" class="case-reflect-left"/>
+            <rect x="206" y="46" width="7" height="112" rx="3.5" class="case-reflect-right"/>
+
+            <rect x="84" y="178" width="152" height="100" rx="6" class="base"/>
+            <rect x="93" y="185" width="134" height="87" rx="4" class="base-panel"/>
+            <rect x="84" y="177" width="152" height="7" class="top-trim"/>
+            <circle cx="96" cy="189" r="1.8" class="screw"/>
+            <circle cx="224" cy="189" r="1.8" class="screw"/>
+            <circle cx="96" cy="270" r="1.8" class="screw"/>
+            <circle cx="224" cy="270" r="1.8" class="screw"/>
+
+            <rect x="128" y="213" width="64" height="52" rx="6" class="coin-unit"/>
+            <circle id="dialHitArea" cx="160" cy="224" r="45" class="dial-hit-area" aria-hidden="true"/>
+            <g class="dial-button" id="dialButton" role="button" aria-label="ダイヤルを回す">
+              <circle cx="160" cy="224" r="25" class="dial-outer"/>
+              <circle cx="160" cy="224" r="17" class="dial-inner"/>
+              <text x="160" y="224" text-anchor="middle" dominant-baseline="middle" class="dial-push dial-push-desktop">CLICK!</text>
+              <text x="160" y="224" text-anchor="middle" dominant-baseline="middle" class="dial-push dial-push-mobile">TAP!</text>
+            </g>
+            <rect x="126" y="252" width="68" height="4" rx="2" class="slot-lip"/>
+            <rect x="126" y="254" width="68" height="11" rx="4" class="slot"/>
+            <ellipse cx="160" cy="267" rx="23" ry="4.5" class="slot-shadow"/>
+          </g>
+        </svg></div></section>
+        <div class="title-band">今日の一歩、カプセルに入れておきました。</div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const exportMode = params.get('export') === '1';
+    if (exportMode) {
+      document.body.classList.add('export-mode');
+      const layout = document.querySelector('.layout');
+      const panel = document.querySelector('.panel');
+      const preview = document.querySelector('.preview-wrap');
+      if (panel) panel.style.display = 'none';
+      if (layout) layout.style.display = 'block';
+      if (preview) {
+        preview.style.padding = '0';
+        preview.style.display = 'block';
+      }
+      const frame = document.getElementById('frame');
+      if (frame) {
+        frame.style.boxShadow = 'none';
+        frame.style.margin = '0';
+      }
+      document.documentElement.style.background = '#dfe5eb';
+      document.body.style.background = '#dfe5eb';
+    }
+
+    const root = document.documentElement;
+    const ids = ['machineWidth','machineTop','textTop','textSize','textPadY','textPadX','logoLeft','logoTop','logoSize'];
+    const units = { machineWidth:'px', machineTop:'%', textTop:'%', textSize:'px', textPadY:'px', textPadX:'px', logoLeft:'px', logoTop:'px', logoSize:'px' };
+    const defaults = { machineWidth:620, machineTop:53, textTop:54, textSize:56, textPadY:12, textPadX:24, logoLeft:14, logoTop:8, logoSize:56 };
+
+    function applyQueryValues() {
+      ids.forEach((id) => {
+        const key = id;
+        const qv = params.get(key);
+        if (qv !== null && qv !== '' && !Number.isNaN(Number(qv))) {
+          document.getElementById(id).value = qv;
+        }
+      });
+    }
+
+    function buildExportUrl() {
+      const u = new URL(location.href);
+      u.search = '';
+      const p = new URLSearchParams();
+      p.set('export', '1');
+      ids.forEach((id) => p.set(id, String(document.getElementById(id).value)));
+      u.search = p.toString();
+      return u.toString();
+    }
+
+    function sync() {
+      ids.forEach(id => {
+        const v = document.getElementById(id).value;
+        const u = units[id];
+        const cssVar = '--' + id.replace(/[A-Z]/g, m => '-' + m.toLowerCase());
+        root.style.setProperty(cssVar, v + u);
+        document.getElementById(id + 'Val').textContent = v + u;
+      });
+      const txt = [
+        `--machine-width: ${document.getElementById('machineWidth').value}px;`,
+        `--machine-top: ${document.getElementById('machineTop').value}%;`,
+        `--text-top: ${document.getElementById('textTop').value}%;`,
+        `--text-size: ${document.getElementById('textSize').value}px;`,
+        `--text-pad-y: ${document.getElementById('textPadY').value}px;`,
+        `--text-pad-x: ${document.getElementById('textPadX').value}px;`,
+        `--logo-left: ${document.getElementById('logoLeft').value}px;`,
+        `--logo-top: ${document.getElementById('logoTop').value}px;`,
+        `--logo-size: ${document.getElementById('logoSize').value}px;`
+      ].join('\n');
+      document.getElementById('cssOut').value = txt;
+      document.getElementById('exportOut').value = buildExportUrl();
+
+      // 1200x630 frame fit check for the machine (viewBox 320x300)
+      const frameH = 630;
+      const aspectH = 300 / 320;
+      const machineW = Number(document.getElementById('machineWidth').value);
+      const topPct = Number(document.getElementById('machineTop').value);
+      const centerY = frameH * (topPct / 100);
+      const machineH = machineW * aspectH;
+      const bottomY = centerY + machineH / 2;
+      const maxSafeW = Math.floor((2 * (frameH - centerY)) / aspectH);
+      const fitWarn = document.getElementById('fitWarn');
+      if (bottomY > frameH) {
+        fitWarn.textContent = `下が切れます: サイズを${maxSafeW}px以下にするか、ガチャ縦位置を上げてください。`;
+      } else {
+        fitWarn.textContent = `OK: 1200x630に収まっています（現在 ${machineW}px / 目安上限 ${maxSafeW}px）。`;
+      }
+    }
+
+    ids.forEach(id => document.getElementById(id).addEventListener('input', sync));
+    document.getElementById('copyCss').addEventListener('click', async () => {
+      const t = document.getElementById('cssOut').value;
+      try { await navigator.clipboard.writeText(t); } catch {}
+    });
+    document.getElementById('openExport').addEventListener('click', () => {
+      const url = buildExportUrl();
+      window.open(url, '_blank', 'noopener,noreferrer');
+    });
+    document.getElementById('reset').addEventListener('click', () => {
+      ids.forEach(id => (document.getElementById(id).value = defaults[id]));
+      sync();
+    });
+
+    applyQueryValues();
+    sync();
+  </script>
+</body>
+</html>
