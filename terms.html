@@ -59,6 +59,20 @@
       border: 1px solid #000;
     }
   </style>
+  <script>
+    window.GA_MEASUREMENT_ID = "G-K51FEL4WPS"; // TODO: Replace with your real GA4 Measurement ID
+    if (window.GA_MEASUREMENT_ID && window.GA_MEASUREMENT_ID !== "G-XXXXXXXXXX") {
+      const gaScript = document.createElement("script");
+      gaScript.async = true;
+      gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${window.GA_MEASUREMENT_ID}`;
+      document.head.appendChild(gaScript);
+
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      window.gtag("js", new Date());
+      window.gtag("config", window.GA_MEASUREMENT_ID);
+    }
+  </script>
 </head>
 <body>
   <main class="wrap">

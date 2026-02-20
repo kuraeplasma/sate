@@ -138,6 +138,8 @@ const mobilePainPatterns = [
   { x: 76, y: 46, tail: "left", rotate: 3 }
 ];
 
+const SPIN_USER_ID_KEY = "ga_spin_user_id";
+const SPIN_COUNT_KEY = "ga_spin_count";
 let currentAction = null;
 let isSpinning = false;
 let soundEnabled = false;
@@ -425,6 +427,58 @@ function handleMachineAreaClick(event) {
   if (inPainArea) showPainComment();
 }
 
+function safeStorageGet(key) {
+  try {
+    return window.localStorage.getItem(key);
+  } catch (_) {
+    return null;
+  }
+}
+
+function safeStorageSet(key, value) {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch (_) {
+    // Ignore storage errors (private mode, quota, etc.)
+  }
+}
+
+function generateAnonymousUserId() {
+  if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+  return `u_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function getOrCreateAnonymousUserId() {
+  let id = safeStorageGet(SPIN_USER_ID_KEY);
+  if (!id) {
+    id = generateAnonymousUserId();
+    safeStorageSet(SPIN_USER_ID_KEY, id);
+  }
+  return id;
+}
+
+function incrementSpinCount() {
+  const current = Number(safeStorageGet(SPIN_COUNT_KEY) || "0");
+  const next = Number.isFinite(current) ? current + 1 : 1;
+  safeStorageSet(SPIN_COUNT_KEY, String(next));
+  return next;
+}
+
+function trackSpinEvent(action, trigger, spinCount) {
+  if (typeof window.gtag !== "function") return;
+  const userId = getOrCreateAnonymousUserId();
+  window.gtag("set", "user_id", userId);
+  window.gtag("set", "user_properties", { anonymous_user_id: userId });
+  window.gtag("event", "gacha_spin", {
+    spin_count: spinCount,
+    spin_trigger: trigger,
+    action_id: action?.id,
+    action_category: action?.category,
+    action_energy_level: action?.energy_level,
+    action_cost_level: action?.cost_level,
+    action_indoor: action?.indoor ? 1 : 0
+  });
+}
 function resetViewForSpin() {
   result.classList.add("hidden");
   card.classList.add("hidden");
@@ -442,13 +496,15 @@ function renderCard(action) {
   metaPlace.textContent = action.place;
 }
 
-function spin() {
+function spin(trigger = "unknown") {
   if (isSpinning) return;
   if (!consumeDraw()) return;
 
   isSpinning = true;
   if (retryBtn) retryBtn.disabled = true;
   currentAction = pickAction();
+  const spinCount = incrementSpinCount();
+  trackSpinEvent(currentAction, trigger, spinCount);
   resetViewForSpin();
   randomizeInnerCapsuleColors();
   setRandomCapsuleColor();
@@ -510,7 +566,7 @@ function goTopAndReload() {
 }
 
 if (retryBtn) {
-  retryBtn.addEventListener("click", spin);
+  retryBtn.addEventListener("click", () => spin("retry_button"));
 }
 
 if (tryBtn) {
@@ -545,8 +601,8 @@ function handleSoundToggle() {
 
 soundToggle.addEventListener("pointerdown", handleSoundToggle);
 soundToggle.addEventListener("click", handleSoundToggle);
-dialButton.addEventListener("click", spin);
-dialHitArea?.addEventListener("click", spin);
+dialButton.addEventListener("click", () => spin("dial_button"));
+dialHitArea?.addEventListener("click", () => spin("dial_hit_area"));
 machineSvg?.addEventListener("click", handleMachineAreaClick);
 
 randomizeInnerCapsuleColors();
